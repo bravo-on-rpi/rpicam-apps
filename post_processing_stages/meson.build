@@ -1,3 +1,5 @@
+cc = meson.get_compiler('c')
+
 rpicam_app_src += files([
     'hdr_stage.cpp',
     'histogram.cpp',
@@ -32,7 +34,8 @@ else
 endif
 
 enable_tflite = get_option('enable_tflite')
-tflite_dep = dependency('tensorflow-lite', required : false)
+tflite_dep = cc.find_library('tensorflow-lite', dirs: ['/usr/local/lib'])
+#tflite_dep = dependency('tensorflow-lite', required : false)
 if enable_tflite and tflite_dep.found()
     rpicam_app_src += files([
         'tf_stage.cpp',
